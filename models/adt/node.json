@@ -1,0 +1,15 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:embeddedgeorge:sample:Node;1",
+  "@type": "Interface",
+  "displayName": "Node",
+  "contents": [
+    {
+      "@type": "Relationship",
+      "@id": "dtmi:embeddedgeorge:sample:Node:target;1",
+      "name": "target",
+      "target": "dtmi:embeddedgeorge:sample:Equipment;1",
+      "maxMultiplicity": 1
+    }
+  ]
+}

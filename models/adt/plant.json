@@ -1,0 +1,23 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:embeddedgeorge:sample:Plant;1",
+  "@type": "Interface",
+  "displayName": "Plant",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Name",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Location",
+      "schema": "string"
+    },
+    {
+      "@type": "Relationship",
+      "name": "contains",
+      "target": "dtmi:embeddedgeorge:sample:Equipment;1"
+    }
+  ]
+}

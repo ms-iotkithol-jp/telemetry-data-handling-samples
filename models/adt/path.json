@@ -1,0 +1,22 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:embeddedgeorge:sample:Path;1",
+  "@type": "Interface",
+  "displayName": "Path",
+  "contents": [
+    {
+      "@type": "Relationship",
+      "@id": "dtmi:embeddedgeorge:sample:Path:predecessor;1",
+      "name": "predecessor",
+      "target": "dtmi:embeddedgeorge:sample:Node;1",
+      "maxMultiplicity": 1
+    },
+    {
+      "@type": "Relationship",
+      "@id": "dtmi:embeddedgeorge:sample:Path:successor;1",
+      "name": "successor",
+      "target": "dtmi:embeddedgeorge:sample:Node;1",
+      "maxMultiplicity": 1
+    }
+  ]
+}

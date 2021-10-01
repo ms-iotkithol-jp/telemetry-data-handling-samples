@@ -1,0 +1,33 @@
+{
+  "put": [
+    {
+      "id": "D7DFE0A3-1062-48A4-8C81-89C1B1DE0E13",
+      "name": "dtmi:embeddedgeorge:sample:thermostaticchamber;1",
+      "description": "TSI sample",
+      "variables": {
+        "temperature": {
+          "kind": "numeric",
+          "value": {
+            "tsx": "$event.[temperature].Double"
+          },
+          "aggregation": {
+            "tsx": "avg($value)"
+          }
+        }
+      }
+    },
+    {
+      "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "name": "DefaultType",
+      "description": "Default type",
+      "variables": {
+        "EventCount": {
+          "kind": "aggregate",
+          "aggregation": {
+            "tsx": "count()"
+          }
+        }
+      }
+    }
+  ]
+}

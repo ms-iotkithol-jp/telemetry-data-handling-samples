@@ -1,0 +1,86 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:embeddedgeorge:sample:Equipment;1",
+  "@type": "Interface",
+  "displayName": "Equipment",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "deviceId",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "TempAVG",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "TempMAX",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "TempMIN",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "TempSTD",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "Status",
+      "displayName": "Status",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "PowerOff",
+            "displayName": "Power Off",
+            "enumValue": "PowerOff"
+          },
+          {
+            "name": "Ready",
+            "displayName": "Ready",
+            "enumValue": "Ready"
+          },
+          {
+            "name": "Filling",
+            "displayName": "Filling",
+            "enumValue": "Filling"
+          },
+          {
+            "name": "Running",
+            "displayName": "Running",
+            "enumValue": "Running"
+          },
+          {
+            "name": "Taking",
+            "displayName": "Taking",
+            "enumValue": "Taking"
+          },
+          {
+            "name": "Broken",
+            "displayName": "Broken",
+            "enumValue": "Broken"
+          },
+          {
+            "name": "WindPowerGeneration",
+            "displayName": "•——Í”­“d",
+            "enumValue": "WindPowerGeneration"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Relationship",
+      "@id": "dtmi:embeddedgeorge:sample:Equipment:is_member_of;1",
+      "name": "is_member_of",
+      "target": "dtmi:embeddedgeorge:sample:Plant;1",
+      "maxMultiplicity": 1
+    }
+  ]
+}

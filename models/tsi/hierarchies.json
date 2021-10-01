@@ -1,0 +1,14 @@
+{
+  "put": [
+    {
+      "id": "00B8F0FA-230F-425D-AAA3-A83DCF39685C",
+      "name": "PlantManagement",
+      "source": {
+        "instanceFieldNames": [
+          "Plant",
+          "Equipment"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "put": [
+    {
+      "timeSeriesId": [
+        "thermostatic-chamber-1"
+      ],
+      "typeId": "D7DFE0A3-1062-48A4-8C81-89C1B1DE0E13",
+      "name": "tsc-1",
+      "description": "",
+      "hierarchyIds": [
+        "00B8F0FA-230F-425D-AAA3-A83DCF39685C"
+      ],
+      "instanceFields": {
+        "Plant": "chiba-plant",
+        "Equipment": "thermostatic-chamber-1"
+      }
+    }
+  ]
+}
