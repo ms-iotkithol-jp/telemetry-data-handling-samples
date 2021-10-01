@@ -148,6 +148,7 @@ IoT Hub を通じて、<b>thermostatic-chamber-1</b> からのデータが Time 
 |Plant|Equipment|
 |-|-|
 |chiba-plant|thermostatic-chamber-1|
+
 と便宜上定義してある。  
 こちらも、types.json や hierachies.json と同様、JSON ファイルを以下の様に登録する。  
 
@@ -165,7 +166,7 @@ instance の登録前に既に表示されていた、<b>thermostatic-chamber-1<
 
 中々に、JSON ファイルの定義内容、IoT Hub レジストリとの関係など、判り難いので、関係を図に示しておく。  
 
-![iothub tsi models relation](images/iothub-tsi-models-relationsvg)  
+![iothub tsi models relation](images/iothub-tsi-models-relation.svg)  
 
 以上で、構成を伴うテレメトリーデータの保存方法を紹介した。一旦テレメトリーデータを Time Series Insights で Blob Container に Parquet フォーマットで保存してしまえば、https://docs.microsoft.com/rest/api/time-series-insights/ で解説されている REST API で、特定の装置の特定の日時の範囲の時系列データセットを取り出すことができる。  
 https://docs.microsoft.com/ja-jp/rest/api/time-series-insights/ のサイトから、多数のグラフ表示のサンプルが紹介されているので、参考にして頂きたい。  
