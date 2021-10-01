@@ -169,4 +169,6 @@ instance の登録前に既に表示されていた、<b>thermostatic-chamber-1<
 ![iothub tsi models relation](images/iothub-tsi-models-relation.svg)  
 
 以上で、構成を伴うテレメトリーデータの保存方法を紹介した。一旦テレメトリーデータを Time Series Insights で Blob Container に Parquet フォーマットで保存してしまえば、https://docs.microsoft.com/rest/api/time-series-insights/ で解説されている REST API で、特定の装置の特定の日時の範囲の時系列データセットを取り出すことができる。  
-https://docs.microsoft.com/ja-jp/rest/api/time-series-insights/ のサイトから、多数のグラフ表示のサンプルが紹介されているので、参考にして頂きたい。  
+また、 https://tsiclientsample.azurewebsites.net/ のサイトから、多数のグラフ表示のサンプルが紹介されているので、参考にして頂きたい。  
+他にも、https://github.com/Azure-Samples/Azure-Time-Series-Insights で、Backed サービスのサンプルが提供されている。  
+
