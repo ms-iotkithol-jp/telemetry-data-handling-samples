@@ -97,3 +97,35 @@ Twin Graph の作成が終わったら、[hold-current-situation.md](./hold-curr
 ![updated twin graph](images/updated-twin-graph.svg)
 
 ※ ここで紹介したサンプルは、機器が増えても、対応する Equipment の Twin を作成し、その deviceId プロパティに IoT Hub に登録した IoT Device の Device Id を設定すれば、そのまま実行可能である。  
+
+---
+## Time Series Insight の配置場所のバリエーション  
+Time Series Insights は時系列データベースであるので、IoT Hub を介して送られてくる機器のセンサー等の時系列データだけでなく、ビジネスエンティティのプロパティで時系列的に変化するものも保存可能である。IoT Hub を通じて送られてくる機器からのデータにおいても、そのまま送信されたテレメトリーデータを保持する場合もあるし、サービス側で加工が必要なデータもある。  
+目的・用途に応じた、Time Series Insights の配置例を図に示しておく。  
+![tsi deployment cases](./images/tsi-deploy-cases.svg)
+
+---
+## Twin Graph の変更履歴  
+さて、Twin Graph が一旦作構成されたら、その後一切変わらなければ、これで話はおしまいになる。しかし、Twin Graph は現実世界のレプリカなので、現実世界で起こりうる、設備機器の置き換え、製造工程の変更、製造物の改善、…、等々様々な変更を、都度々々、Twin Graph に反映させなければならない。  
+その場合、Twin や Relationship の削除や新しい Twin や Relationship の作成による置き換えや、一部の Twin Model の定義を更新してバージョンを付け替えて、Twin や Relationship の更新が必要になる。  
+良くも悪くも、Azure Digital Twins が保持している Twin Gpraph は、"<b>今どうなっているか</b>"を保持する仕組みに過ぎない。  
+Twin Graph が変化してしまうと、過去に蓄積した時系列データとの整合がそのままでは取れなくなってしまう。例えば、ある複数の製造装置から構成された製造ラインに設置された"恒温槽-A"の"温度"プロパティの時系列データを、Time Series Insights に保存し続けていたとする。製造ラインの変更により、"恒温槽-A"がなくなり、Twin Graph 上から消えたとすると、もはや、Azure Digital Twins から辿って、Time Series Insights に対して"恒温槽-A"の"温度"を取り出すこともできないし、計測した時点の製造ラインの状況も失われてしまう。  
+つまり、過去から現在までを一貫して取り扱いたいなら、Twin Graph の変化履歴を保持する仕組みが必要になる。  
+ここで、間違っても、「じゃあ、Twin Graph の変化もモデル化して、Twin Model に追加して、Azure Digital Twins で変化の履歴も保持しよう！」…なんて、センスの悪い技術屋が考えそうなことをやってはいけない。単に扱いにくい Twin Model が出来上がって生産性を落とすだけである。  
+製造ラインに大きな変更があったとき、変更前と変更後を比較することはあっても、変更前から変更後までの時系列データを連続したデータとしてみてみたいという事は無いだろう。よって、素直に、Azure Digital Twins instance を新しく用意して、古いものはそのまま残し、新しい Twin Model を元にした新しい Twin Graph を作成するのが良いだろう。  
+※ 勿論、新しく作られた Azure Digital Twins Instance への Telemetry 入力処理、Twin Graph 操作処理、Event Routing 処理の追加は必要になるが。こちらは、以前から使っていた Function 等そのまま流用できるものもあれば、新しい Twin Model 向けの改変も必要だろう。Azure Digital Twins はただ単に Twin Graph を保持しているだけなら利用料は発生しないので残していてもコストへのインパクトはないし、過去の仕組みはそのまま残しておいた方が、開発・運用の観点からも安全であろう。    
+
+![adt twin graph migration](./images/adt-twin-graph-migration.svg)
+
+また、小幅の構成変更や Property 更新の場合は、Twin Graph の更新通知を JSON 化してCosmos DB に保持しておき、後で "過去どうだったか" を知りたいときに、（こちらも）新しく Azure Digital Twins Instance を作成して、Cosmos DB に記録された更新情報を元に、Twin Graph を再構成するのが良いと思われる。  
+![cosmos db store twin graph history](./images/cosmosdb-store-tg-history.svg)  
+Azure Digital Twins が Event Grid を介して Function に送ってくるデータは、C#の場合、[EventGridEvent](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.eventgrid.models.eventgridevent?view=azure-dotnet) の型のデータで転送される。Twin Graph の更新内容は、Data プロパティに文字列で入っているので、一旦、JSON にデシリアライズし、EventGridEvent の、  
+- EventTime  
+- EventType  
+- Subject  
+- Topic  
+と合わせて、JSON 変数を作り、シリアライズして、Cosmos DB にストアすればよい。  
+Function は、Cosmos DB への出力バインディングがサポートされている（https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-bindings-cosmosdb-v2-output?tabs=csharp）おり、これを使えば非常に簡単に Cosmos DB に Twin Graph の変更を逐次保存できる。  
+過去の分析がしたい時点で、Azure Digital Twins Instance を新しく作成し、Cosmos DB に蓄積された更新情報を EventTime 順に取出し、Twin Graph を構成、更新していけば、過去の希望の時点の Twin Graph を再現できる。  
+
+※ Time Series Insights のモデルは、かっちり定義されたものというよりは、時系列データを分析したいときに、どういう視点でデータ単位を扱うかによって、都度都度、定義するもの、と考えると上手い活用ができると思われる。  
